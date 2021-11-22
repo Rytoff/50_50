@@ -39,6 +39,7 @@ body {
   margin: 0;
   opacity: 0;
   color: #fff;
+  transition: opacity 0.7s ease-in 0.2s;
 }
 .panel.active {
   flex: 5;
