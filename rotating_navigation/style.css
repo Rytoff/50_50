@@ -31,7 +31,11 @@ body {
   width: 200px;
   border-radius: 50%;
   position: relative;
-  transition: transform 0.5s linear;
+  opacity: 0.5;
+  transition: transform 0.5s linear, opacity 0.3s linear;
+}
+.circle:hover {
+  opacity: 1;
 }
 .container.show-nav .circle {
   transform: rotate(-70deg);
