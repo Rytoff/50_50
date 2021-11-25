@@ -2,8 +2,8 @@
 :root {
   --left-bg-color: rgba(84, 87, 236, 0.49);
   --right-bg-color: rgba(43, 43, 43, 0.84);
-  --left-btn-hover-color: rgba(84, 87, 236, 1);
-  --right-btn-hover-color: rgba(28, 122, 28, 1);
+  --left-btn-hover-color: rgba(84, 87, 236, 0.7);
+  --right-btn-hover-color: rgba(28, 122, 28, 0.7);
   --hover-width: 75%;
   --other-width: 25%;
   --speed: 1000ms;
@@ -42,6 +42,7 @@ h1 {
   text-transform: uppercase;
   width: 15rem;
   padding: 1.5rem;
+  transition: background-color var(--speed) ease;
 }
 .container {
   position: relative;
