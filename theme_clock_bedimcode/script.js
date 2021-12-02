@@ -1,86 +1,95 @@
-// const hourEl = document.querySelector('.hour')
-// const minuteEl = document.querySelector('.minute')
-// const secondEl = document.querySelector('.second')
-// const timeEl = document.querySelector('.time')
-// const dateEl = document.querySelector('.date')
-// const toggle = document.querySelector('.toggle')
+const hour = document.getElementById('clock__hour'),
+  minutes = document.getElementById('clock__minutes'),
+  seconds = document.getElementById('clock__seconds')
 
-// const days = [
-//   'Monday',
-//   'Tuesday',
-//   'Wednesday',
-//   'Thursday',
-//   'Friday',
-//   'Saturday',
-//   'Sunday',
-// ]
-// const months = [
-//   'Jan',
-//   'Feb',
-//   'Mar',
-//   'Apr',
-//   'May',
-//   'Jun',
-//   'Jul',
-//   'Aug',
-//   'Sep',
-//   'Oct',
-//   'Nov',
-//   'Dec',
-// ]
+const textHour = document.getElementById('text-hour'),
+  textMinutes = document.getElementById('text-minutes'),
+  textAmPm = document.getElementById('text-ampm'),
+  dateDay = document.getElementById('date-day'),
+  dateMonth = document.getElementById('date-month'),
+  dateYear = document.getElementById('date-year')
 
-// toggle.addEventListener('click', (e) => {
-//   const html = document.querySelector('html')
-//   if (html.classList.contains('dark')) {
-//     html.classList.remove('dark')
-//     e.target.innerHTML = 'Dark mode'
-//   } else {
-//     html.classList.add('dark')
-//     e.target.innerHTML = 'Light mode'
-//   }
-// })
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
-// function setTime() {
-//   const time = new Date()
-//   const month = time.getMonth()
-//   const day = time.getDay()
-//   const date = time.getDate()
-//   const hours = time.getHours()
-//   const hoursForClock = hours % 12
-//   const minutes = time.getMinutes()
-//   const seconds = time.getSeconds()
-//   const ampm = hours >= 12 ? 'PM' : 'AM'
+const clock = () => {
+  let date = new Date()
 
-//   hourEl.style.transform = `translate(-50%,-100%) rotate(${scale(
-//     hoursForClock,
-//     0,
-//     11,
-//     0,
-//     360
-//   )}deg)`
-//   minuteEl.style.transform = `translate(-50%,-100%) rotate(${scale(
-//     minutes,
-//     0,
-//     59,
-//     0,
-//     360
-//   )}deg)`
-//   secondEl.style.transform = `translate(-50%,-100%) rotate(${scale(
-//     seconds,
-//     0,
-//     59,
-//     0,
-//     360
-//   )}deg)`
+  let hh = date.getHours() * 30,
+    mm = date.getMinutes() * 6,
+    ss = date.getSeconds() * 6,
+    day = date.getDate(),
+    month = date.getMonth(),
+    year = date.getFullYear(),
+    ampm
 
-//   timeEl.innerHTML = `${hoursForClock}:${
-//     minutes < 10 ? `0${minutes}` : minutes
-//   } ${ampm}`
-//   dateEl.innerHTML = `${days[day]}, ${months[month]} <span class="circle">${date}</span>`
-// }
-// const scale = (number, inMin, inMax, outMin, outMax) => {
-//   return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
-// }
+  hour.style.transform = `rotateZ(${hh + mm / 12}deg)`
+  minutes.style.transform = `rotateZ(${mm}deg)`
+  seconds.style.transform = `rotateZ(${ss}deg)`
 
-// setTime()
-// setInterval(setTime, 1000)
+  if (hh / 30 >= 12) {
+    hh = hh / 30 - 12
+    ampm = 'PM'
+  } else {
+    ampm = 'AM'
+  }
+  if (hh == 0) {
+    hh = 12
+  }
+  if (hh < 10) {
+    hh = `0${hh}`
+  }
+  textHour.innerText = `${hh}:`
+  if (mm / 6 < 10) {
+    mm = `0${mm / 6}`
+  } else {
+    mm = mm / 6
+  }
+  textMinutes.innerText = `${mm}`
+
+  textAmPm.innerText = ampm
+  dateDay.innerHTML = day
+  dateMonth.innerHTML = `${months[month]}`
+  dateYear.innerHTML = year
+}
+setInterval(clock, 1000)
+
+const themeButton = document.getElementById('theme-button')
+const darkTheme = 'dark-theme'
+const iconTheme = 'bxs-sun'
+
+const selectedTheme = localStorage.getItem('selected-theme')
+const selectedIcon = localStorage.getItem('selected-icon')
+
+const getCurrentTheme = () =>
+  document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+const getCurrentIcon = () =>
+  themeButton.classList.contains(iconTheme) ? 'bxs-moon' : 'bxs-sun'
+
+if (selectedTheme) {
+  document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](
+    darkTheme
+  )
+  themeButton.classList[selectedIcon === 'bxs-moon' ? 'add' : 'remove'](
+    iconTheme
+  )
+}
+
+themeButton.addEventListener('click', () => {
+  document.body.classList.toggle(darkTheme)
+  themeButton.classList.toggle(iconTheme)
+  localStorage.setItem('selected-theme', getCurrentTheme())
+  localStorage.setItem('selected-icon', getCurrentIcon())
+})
