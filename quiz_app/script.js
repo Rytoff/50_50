@@ -1,1 +1,89 @@
-console.log(1)
+const quizData = [
+  {
+    question: 'Which language runs in a web browser?',
+    a: 'Java',
+    b: 'C',
+    c: 'Pyton',
+    d: 'Javascript',
+    correct: 'd',
+  },
+  {
+    question: 'What does CSS stand for?',
+    a: 'Central Style Sheets',
+    b: 'Cascading Style Sheets',
+    c: 'Cascading Simple Sheets',
+    d: 'Cars SUV Sailboarts',
+    correct: 'b',
+  },
+  {
+    question: 'What does HTML stand for?',
+    a: 'Hypertext Markup Language',
+    b: 'Hypertext Markdown Language',
+    c: 'Hypertext Machine Language',
+    d: 'Helicopters Terminals Motorboats Lamborginis',
+    correct: 'a',
+  },
+  {
+    question: 'What year was Javascript launched?',
+    a: '1996',
+    b: '1995',
+    c: '1994',
+    d: 'none of above',
+    correct: 'b',
+  },
+]
+
+const quiz = document.getElementById('quiz')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a-text')
+const b_text = document.getElementById('b-text')
+const c_text = document.getElementById('c-text')
+const d_text = document.getElementById('d-text')
+const submitBtn = document.getElementById('submit')
+const answerEls = document.querySelectorAll('.answer')
+
+let currentQuiz = 0
+let score = 0
+
+loadQuiz()
+
+function loadQuiz() {
+  deselectAnswers()
+  const currentQuizData = quizData[currentQuiz]
+  questionEl.innerText = currentQuizData.question
+  a_text.innerText = currentQuizData.a
+  b_text.innerText = currentQuizData.b
+  c_text.innerText = currentQuizData.c
+  d_text.innerText = currentQuizData.d
+}
+function deselectAnswers() {
+  answerEls.forEach((item) => (item.checked = false))
+}
+function getSelected() {
+  let answer
+  answerEls.forEach((item) => {
+    if (item.checked) {
+      answer = item.id
+    }
+  })
+  return answer
+}
+
+submitBtn.addEventListener('click', () => {
+  const answer = getSelected()
+  if (answer) {
+    if (answer === quizData[currentQuiz].correct) {
+      score++
+    }
+    currentQuiz++
+
+    if (currentQuiz < quizData.length) {
+      loadQuiz()
+    } else {
+      quiz.innerHTML = `
+      <h2>You answered at ${score} / ${quizData.length} questions correctly</h2>
+      <button onclick='location.reload()'>Reload</button>
+      `
+    }
+  }
+})
